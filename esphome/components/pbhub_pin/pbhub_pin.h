@@ -1,39 +1,45 @@
-#include "esphome.h"
+#pragma once
+
+#include "esphome/core/component.h"
+#include "esphome/components/binary_sensor/binary_sensor.h"
 #include "esphome/components/remote_base/remote_receiver.h"
 #include "m5unit_pbhub.h"
 
 namespace esphome {
-namespace pbhub_pin {
+namespace m5unit_pbhub {
 
 class PbHubPin : public Component, public remote_base::RemoteReceiver {
-public:
-    void setup() override {
-        ESP_LOGCONFIG(TAG, "Setting up PbHubPin: pin=%d", this->pin_);
-        auto pbhub = this->parent_;
-        pbhub->add_virtual_pin(this->pin_, this);
-    }
+ public:
+  PbHubPin(M5UnitPbHub *parent, uint8_t pin, bool pullup)
+      : parent_(parent), pin_(pin), pullup_(pullup) {}
 
-    void loop() override {
-        // Override if necessary
-    }
+  void setup() override {
+    ESP_LOGCONFIG(TAG, "Setting up PbHubPin: pin=%d, pullup=%d", this->pin_, this->pullup_);
+    this->parent_->pinMode(this->pin_, this->pullup_ ? INPUT_PULLUP : INPUT);
+  }
 
-    void set_parent(M5UnitPbHub *parent) {
-        this->parent_ = parent;
-    }
+  void loop() override {
+    // Periodic tasks here, if any
+  }
 
-    void set_pin(uint8_t pin) {
-        this->pin_ = pin;
-    }
+  void dump_config() override {
+    ESP_LOGCONFIG(TAG, "PbHubPin:");
+    ESP_LOGCONFIG(TAG, "  Pin: %d", this->pin_);
+  }
 
-    void dump_config() override {
-        ESP_LOGCONFIG(TAG, "PbHubPin:");
-        ESP_LOGCONFIG(TAG, "  Pin: %d", this->pin_);
-    }
+  void update() override {
+    int value = this->parent_->digitalRead(this->pin_);
+    this->publish_state(value);
+  }
 
-protected:
-    M5UnitPbHub *parent_;
-    uint8_t pin_;
+ private:
+  M5UnitPbHub *parent_;
+  uint8_t pin_;
+  bool pullup_;
+  static const char *TAG;
 };
 
-}  // namespace pbhub_pin
+const char *PbHubPin::TAG = "pbhub_pin";
+
+}  // namespace m5unit_pbhub
 }  // namespace esphome
