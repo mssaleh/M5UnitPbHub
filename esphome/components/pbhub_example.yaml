@@ -17,7 +17,6 @@ external_components:
 m5unit_pbhub:
   id: pbhub_component
   address: 0x38
-  channel: 0
 
 # Define the binary sensor using the custom PbHub pin
 binary_sensor:
@@ -26,6 +25,7 @@ binary_sensor:
     pin:
       m5unit_pbhub: pbhub_component
       number: 0
+      channel: 0
       mode:
         input: true
         pullup: false
@@ -42,6 +42,7 @@ remote_receiver:
   pin:
     m5unit_pbhub: pbhub_component
     number: 0
+    channel: 0
     mode:
       input: true
       pullup: false
