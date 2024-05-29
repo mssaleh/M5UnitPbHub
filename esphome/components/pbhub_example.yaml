@@ -1,0 +1,26 @@
+esphome:
+  name: pbhub_example
+  platform: ESP32
+  board: esp32dev
+
+# Define the I2C bus
+i2c:
+  sda: GPIO21
+  scl: GPIO22
+  scan: true
+
+# Include the custom components
+external_components:
+  - source: local
+    components: [m5unit_pbhub, pbhub_pin]
+
+m5unit_pbhub:
+  id: pbhub_component
+  address: 0x38
+  channel: 0
+
+remote_receiver:
+  id: rf_receiver
+  dump: all
+  pin:
+    pbhub_pin: 0
