@@ -26,8 +26,9 @@ binary_sensor:
     pin:
       m5unit_pbhub: pbhub_component
       number: 0
-      mode: INPUT_PULLUP
-      pullup: true
+      mode:
+        input: true
+        pullup: false
       inverted: false
     id: rf_receiver
     filters:

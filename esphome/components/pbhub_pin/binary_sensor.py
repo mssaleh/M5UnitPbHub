@@ -15,8 +15,10 @@ CONF_INVERTED = 'inverted'
 PbHubPinSchema = cv.Schema({
     cv.GenerateID(): cv.use_id('m5unit_pbhub', 'M5UnitPbHub'),
     cv.Required(CONF_NUMBER): cv.int_,
-    cv.Optional(CONF_MODE, default='INPUT'): cv.one_of('INPUT', 'INPUT_PULLUP', lower=True),
-    cv.Optional(CONF_PULLUP, default=False): cv.boolean,
+    cv.Optional(CONF_MODE, default='INPUT'): cv.Schema({
+        'input': cv.boolean,
+        'pullup': cv.boolean,
+    }),
     cv.Optional(CONF_INVERTED, default=False): cv.boolean,
 })
 
@@ -27,7 +29,8 @@ CONFIG_SCHEMA = binary_sensor.binary_sensor_schema(PbHubPinBinarySensor).extend(
 
 def to_code(config):
     hub = yield cg.get_variable(config[CONF_PIN][CONF_M5UNIT_PBHUB])
-    var = cg.new_Pvariable(config[CONF_ID], hub, config[CONF_PIN][CONF_NUMBER], config[CONF_PIN][CONF_PULLUP])
+    pin_mode = config[CONF_PIN][CONF_MODE]
+    var = cg.new_Pvariable(config[CONF_ID], hub, config[CONF_PIN][CONF_NUMBER], pin_mode['pullup'])
     cg.add(var.set_parent(hub))
     cg.add(var.set_inverted(config[CONF_PIN][CONF_INVERTED]))
     yield cg.register_component(var, config)
