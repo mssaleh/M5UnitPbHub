@@ -13,24 +13,10 @@ class PbHubPin : public Component, public binary_sensor::BinarySensor, public re
   PbHubPin(M5UnitPbHub *parent, uint8_t pin, bool pullup)
       : parent_(parent), pin_(pin), pullup_(pullup) {}
 
-  void setup() override {
-    ESP_LOGCONFIG(TAG, "Setting up PbHubPin: pin=%d, pullup=%d", this->pin_, this->pullup_);
-    this->parent_->pinMode(this->pin_, this->pullup_ ? INPUT_PULLUP : INPUT);
-  }
-
-  void loop() override {
-    // Periodic tasks here, if any
-  }
-
-  void dump_config() override {
-    ESP_LOGCONFIG(TAG, "PbHubPin:");
-    ESP_LOGCONFIG(TAG, "  Pin: %d", this->pin_);
-  }
-
-  void update() override {
-    int value = this->parent_->digitalRead(this->pin_);
-    this->publish_state(value);
-  }
+  void setup() override;
+  void loop() override;
+  void dump_config() override;
+  void update() override;
 
  private:
   M5UnitPbHub *parent_;

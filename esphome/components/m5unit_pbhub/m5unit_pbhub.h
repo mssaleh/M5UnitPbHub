@@ -1,5 +1,4 @@
 #pragma once
-
 #include "esphome.h"
 #include "esphome/core/component.h"
 #include "esphome/components/i2c/i2c.h"
@@ -13,6 +12,7 @@ class M5UnitPbHub : public Component, public i2c::I2CDevice {
 
   void setup() override {
     ESP_LOGCONFIG(TAG, "Setting up M5UnitPbHub at address 0x%02X", this->address_);
+    // Initialization code here, if any
   }
 
   void loop() override {
