@@ -3,8 +3,11 @@ import esphome.config_validation as cv
 from esphome.components import binary_sensor
 from esphome.const import CONF_ID, CONF_PIN, CONF_MODE, CONF_PULLUP
 
-from .. import pbhub_pin_ns, PbHubPin
+from .. import pbhub_pin_ns
 
+DEPENDENCIES = ['m5unit_pbhub']
+
+pbhub_pin_ns = cg.esphome_ns.namespace('pbhub_pin')
 PbHubPinBinarySensor = pbhub_pin_ns.class_('PbHubPinBinarySensor', binary_sensor.BinarySensor)
 
 CONFIG_SCHEMA = binary_sensor.binary_sensor_schema(PbHubPinBinarySensor).extend({
