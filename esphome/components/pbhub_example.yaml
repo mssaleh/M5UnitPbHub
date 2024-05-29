@@ -28,6 +28,7 @@ binary_sensor:
       number: 0
       mode: INPUT_PULLUP
       pullup: true
+      inverted: false
     id: rf_receiver
     filters:
       - delayed_on: 10ms
@@ -35,11 +36,12 @@ binary_sensor:
 
 # Define the remote receiver using the custom PbHub pin
 remote_receiver:
-  - platform: pbhub_pin
-    id: rf_receiver
-    dump: all
-    pin:
-      m5unit_pbhub: pbhub_component
-      number: 0
-      mode: INPUT_PULLUP
-      pullup: true
+  id: rf_receiver
+  dump: all
+  pin:
+    m5unit_pbhub: pbhub_component
+    number: 0
+    mode:
+      input: true
+      pullup: false
+    inverted: true
