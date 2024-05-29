@@ -4,7 +4,7 @@
 namespace esphome {
 namespace m5unit_pbhub {
 
-// Implement any necessary class methods here
+// No additional implementation needed for now
 
 }  // namespace m5unit_pbhub
 }  // namespace esphome

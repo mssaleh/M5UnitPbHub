@@ -19,8 +19,27 @@ m5unit_pbhub:
   address: 0x38
   channel: 0
 
+# Define the binary sensor using the custom PbHub pin
+binary_sensor:
+  - platform: pbhub_pin
+    name: "RF433 Receiver"
+    pin:
+      m5unit_pbhub: pbhub_component
+      number: 0
+      mode: INPUT_PULLUP
+      pullup: true
+    id: rf_receiver
+    filters:
+      - delayed_on: 10ms
+      - delayed_off: 10ms
+
+# Define the remote receiver using the custom PbHub pin
 remote_receiver:
-  id: rf_receiver
-  dump: all
-  pin:
-    pbhub_pin: 0
+  - platform: pbhub_pin
+    id: rf_receiver
+    dump: all
+    pin:
+      m5unit_pbhub: pbhub_component
+      number: 0
+      mode: INPUT_PULLUP
+      pullup: true

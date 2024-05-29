@@ -8,7 +8,7 @@
 namespace esphome {
 namespace m5unit_pbhub {
 
-class PbHubPin : public Component, public remote_base::RemoteReceiver {
+class PbHubPin : public Component, public binary_sensor::BinarySensor, public remote_base::RemoteReceiver {
  public:
   PbHubPin(M5UnitPbHub *parent, uint8_t pin, bool pullup)
       : parent_(parent), pin_(pin), pullup_(pullup) {}
